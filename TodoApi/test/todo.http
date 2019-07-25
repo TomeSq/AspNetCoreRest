@@ -1,0 +1,29 @@
+GET https://localhost:44338/api/v1/todo
+
+###
+
+GET https://localhost:44338/api/v1/todo/1
+
+###
+
+POST https://localhost:44338/api/v1/todo/
+Content-Type: application/json
+
+{
+    "name": "walk dog",
+    "isComplete": true
+}
+
+###
+
+PUT https://localhost:44338/api/v1/todo/1
+Content-Type: application/json
+
+{
+    "ID": 1,
+    "name": "feed fish",
+    "isComplete": true
+}
+
+###
+DELETE https://localhost:44338/api/v1/todo/1
