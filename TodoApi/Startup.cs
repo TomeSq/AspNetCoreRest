@@ -67,6 +67,18 @@ namespace TodoApi
                         Array.Empty<string>()
                     },
                 });
+
+                // トークン認証用のUIを追加する
+                c.AddSecurityDefinition("api_key", new ApiKeyScheme()
+                {
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apikey",
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
+                });
+
+                // 入力したトークをリクエストに含めるフィルタを追加
+                c.OperationFilter<AssignJwtSecurityRequirements>();
             });
 
             services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
