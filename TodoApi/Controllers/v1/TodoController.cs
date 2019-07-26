@@ -9,6 +9,9 @@ using TodoApi.Models;
 
 namespace TodoApi.Controllers.v1
 {
+    /// <summary>
+    /// Todoモデルにアクセスするためのコントローラー
+    /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
     public class TodoController : ControllerBase
@@ -26,12 +29,21 @@ namespace TodoApi.Controllers.v1
             }
         }
 
+        /// <summary>
+        /// Todo一覧を取得する
+        /// </summary>
+        /// <returns>Todo一覧を返す</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
             return await _context.TodoItems.ToListAsync();
         }
 
+        /// <summary>
+        /// 指定されたidのTodoを取得する
+        /// </summary>
+        /// <param name="id">todo id</param>
+        /// <returns>todo</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
         {
@@ -45,7 +57,11 @@ namespace TodoApi.Controllers.v1
             return todoItem;
         }
 
-        // POST: api/Todo
+        /// <summary>
+        /// todoを更新する
+        /// </summary>
+        /// <param name="item">todo item</param>
+        /// <returns>更新結果</returns>
         [HttpPost]
         public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem item)
         {
@@ -55,7 +71,12 @@ namespace TodoApi.Controllers.v1
             return CreatedAtAction(nameof(GetTodoItem), new { id = item.Id }, item);
         }
 
-        // PUT: api/Todo/5
+        /// <summary>
+        /// 指定されたidのtodoを更新する
+        /// </summary>
+        /// <param name="id">todo id</param>
+        /// <param name="item">更新内容</param>
+        /// <returns>削除結果</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTodoItem(long id, TodoItem item)
         {
@@ -70,7 +91,11 @@ namespace TodoApi.Controllers.v1
             return NoContent();
         }
 
-        // DELETE: api/Todo/5
+        /// <summary>
+        /// 指定されたidのtodoを削除する
+        /// </summary>
+        /// <param name="id">todo id</param>
+        /// <returns>削除結果</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTodoItem(long id)
         {
