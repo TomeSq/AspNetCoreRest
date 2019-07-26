@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace TodoApi.Controllers.v1
+namespace TodoApi.Controllers.V1
 {
     /// <summary>
     /// Todoモデルにアクセスするためのコントローラー
@@ -20,12 +19,17 @@ namespace TodoApi.Controllers.v1
 
         public TodoController(TodoContext context)
         {
-            _context = context;
-
-            if(_context.TodoItems.Count() == 0)
+            if (context == null)
             {
-                _context.TodoItems.Add(new TodoItem { Name = "Item1" });
-                _context.SaveChanges();
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            this._context = context;
+
+            if (this._context.TodoItems.Count() == 0)
+            {
+                this._context.TodoItems.Add(new TodoItem { Name = "Item1" });
+                this._context.SaveChanges();
             }
         }
 
@@ -36,7 +40,7 @@ namespace TodoApi.Controllers.v1
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
-            return await _context.TodoItems.ToListAsync();
+            return await this._context.TodoItems.ToListAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -47,11 +51,11 @@ namespace TodoApi.Controllers.v1
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
         {
-            var todoItem = await _context.TodoItems.FindAsync(id);
+            var todoItem = await this._context.TodoItems.FindAsync(id).ConfigureAwait(false);
 
-            if(todoItem == null)
+            if (todoItem == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
             return todoItem;
@@ -65,10 +69,15 @@ namespace TodoApi.Controllers.v1
         [HttpPost]
         public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem item)
         {
-            _context.TodoItems.Add(item);
-            await _context.SaveChangesAsync();
+            if (item == null)
+            {
+                return this.BadRequest();
+            }
 
-            return CreatedAtAction(nameof(GetTodoItem), new { id = item.Id }, item);
+            this._context.TodoItems.Add(item);
+            await this._context.SaveChangesAsync().ConfigureAwait(false);
+
+            return this.CreatedAtAction(nameof(this.GetTodoItem), new { id = item.Id }, item);
         }
 
         /// <summary>
@@ -80,15 +89,20 @@ namespace TodoApi.Controllers.v1
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTodoItem(long id, TodoItem item)
         {
-            if (id != item.Id)
+            if (item == null)
             {
-                return BadRequest();
+                throw new ArgumentNullException(nameof(item));
             }
 
-            _context.Entry(item).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            if (id != item.Id)
+            {
+                return this.BadRequest();
+            }
 
-            return NoContent();
+            this._context.Entry(item).State = EntityState.Modified;
+            await this._context.SaveChangesAsync().ConfigureAwait(false);
+
+            return this.NoContent();
         }
 
         /// <summary>
@@ -99,17 +113,17 @@ namespace TodoApi.Controllers.v1
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTodoItem(long id)
         {
-            var todoItem = await _context.TodoItems.FindAsync(id);
+            var todoItem = await this._context.TodoItems.FindAsync(id).ConfigureAwait(false);
 
             if (todoItem == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            _context.TodoItems.Remove(todoItem);
-            await _context.SaveChangesAsync();
+            this._context.TodoItems.Remove(todoItem);
+            await this._context.SaveChangesAsync().ConfigureAwait(false);
 
-            return NoContent();
+            return this.NoContent();
         }
     }
 }
