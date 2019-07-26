@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
@@ -45,6 +46,7 @@ namespace TodoApi
 
             services.AddSwaggerGen(c =>
             {
+                // swaggerのドキュメント設定
                 c.SwaggerDoc(
                     "v1",
                     new Info
@@ -52,11 +54,19 @@ namespace TodoApi
                         Title = "Sample API",
                         Version = "v1",
                     });
-
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
                 c.IncludeXmlComments(xmlPath);
+
+                // 認証設定
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    {
+                        "Bearer",
+                        Array.Empty<string>()
+                    },
+                });
             });
 
             services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
