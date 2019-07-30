@@ -11,8 +11,10 @@ namespace TodoApi.Controllers.V1
     /// <summary>
     /// Todoモデルにアクセスするためのコントローラー
     /// </summary>
-    [Route("api/v1/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class TodoController : ControllerBase
     {
         private readonly TodoContext _context;
