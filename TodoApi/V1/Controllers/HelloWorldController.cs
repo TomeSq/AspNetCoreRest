@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TodoApi.Controllers.V1
+namespace TodoApi.V1.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]

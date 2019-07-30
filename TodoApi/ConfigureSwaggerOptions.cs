@@ -7,9 +7,9 @@
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     /// <summary>
-    /// Configures the Swagger generation options.
+    /// Swagger オプション設定
     /// </summary>
-    /// <remarks>This allows API versioning to define a Swagger document per API version after the
+    /// <remarks>APIをバージョニングするのに必要な設定を行う。
     /// <see cref="IApiVersionDescriptionProvider"/> service has been resolved from the service container.</remarks>
     public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
@@ -39,13 +39,7 @@
                 Title = "Sample API",
                 Version = description.ApiVersion.ToString(),
                 Description = "A sample application with Swagger, Swashbuckle, and API versioning.",
-                Contact = new Contact() { Name = "Bill Mei", Email = "bill.mei@somewhere.com" },
-                TermsOfService = "Shareware",
-                License = new License()
-                {
-                    Name = "MIT",
-                    Url = "https://opensource.org/licenses/MIT",
-                },
+                TermsOfService = "利用規約",
             };
 
             if (description.IsDeprecated)

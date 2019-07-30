@@ -14,7 +14,7 @@ namespace TodoApi
     public class SwaggerDefaultValues : IOperationFilter
     {
         /// <summary>
-        /// Applies the filter to the specified operation using the given context.
+        /// Swagger UI用のフィルタ
         /// </summary>
         /// <param name="operation">The operation to apply the filter to.</param>
         /// <param name="context">The current operation filter context.</param>

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
+using TodoApi.V1.Models;
 
-namespace TodoApi.Controllers.V1
+namespace TodoApi.V1.Controllers
 {
     /// <summary>
     /// Todoモデルにアクセスするためのコントローラー

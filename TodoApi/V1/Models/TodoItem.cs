@@ -1,4 +1,4 @@
-﻿namespace TodoApi.Models
+﻿namespace TodoApi.V1.Models
 {
     /// <summary>
     /// Todo Itemモデル
