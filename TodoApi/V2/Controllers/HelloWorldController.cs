@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TodoApi.V2.Controllers
@@ -9,7 +10,7 @@ namespace TodoApi.V2.Controllers
     public class HelloWorldController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get(ApiVersion apiVersion)
+        public async Task<IActionResult> Get(ApiVersion apiVersion)
         {
             #region 引数のNULLチェック
             if (apiVersion == null)
@@ -18,12 +19,15 @@ namespace TodoApi.V2.Controllers
             }
             #endregion
 
-            return this.Ok(
-                new
-                {
-                    Controller = this.GetType().Name,
-                    Version = apiVersion.ToString(),
-                });
+            return await Task.Run(() =>
+            {
+                return this.Ok(
+                    new
+                    {
+                        Controller = this.GetType().Name,
+                        OS = System.Runtime.InteropServices.RuntimeInformation.OSDescription.Trim(),
+                    });
+            }).ConfigureAwait(false);
         }
     }
 }
