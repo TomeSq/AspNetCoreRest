@@ -21,8 +21,9 @@ namespace TodoApi.V1.Controllers
             return this.Ok(
                 new
                 {
-                    Controller = this.GetType().Name,
-                    Version = apiVersion.ToString(),
+                    ApiVersion = apiVersion.ToString(),
+                    OS = System.Environment.OSVersion,
+                    OSName = System.Runtime.InteropServices.RuntimeInformation.OSDescription,
                 });
         }
     }
