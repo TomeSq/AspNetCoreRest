@@ -5,12 +5,14 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using TodoApi.V1.Models;
 using static Microsoft.AspNetCore.Mvc.CompatibilityVersion;
 
 namespace TodoApi
@@ -108,6 +110,8 @@ namespace TodoApi
                 // 入力したトークをリクエストに含めるフィルタを追加
                 c.OperationFilter<AssignJwtSecurityRequirements>();
             });
+
+            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
         }
     }
 }
